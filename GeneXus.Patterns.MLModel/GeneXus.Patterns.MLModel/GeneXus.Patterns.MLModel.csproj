@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project=".\Environment2.targets" Condition="Exists('.\Environment.targets')" />
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+		<GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
+		<GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
+	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="EditorHost\**" />
+    <EmbeddedResource Remove="EditorHost\**" />
+    <None Remove="EditorHost\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Editor.cs" />
+    <Compile Remove="MLModelSplitEditor.cs" />
+    <Compile Remove="MLModelSplitEditor.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="MLModelSplitEditor.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="datapool.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\MLModelInstance.xml" Link="Definition\MLModelInstance.xml" />
+    <Content Include="..\..\MLModelSettings.xml" Link="Definition\MLModelSettings.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Artech.Architecture.Common">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Architecture.Interfaces">
+      <HintPath>$(GX_PROGRAM_DIR)\Artech.Architecture.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Architecture.Language">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.Language.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Architecture.UI.Framework">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.UI.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Common">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Common.Framework">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Common.Helpers">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Common.Properties">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Properties.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Genexus.Common">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Genexus.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Packages.Patterns">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Packages.Patterns.dll</HintPath>
+    </Reference>
+    <Reference Include="Artech.Udm.Framework">
+      <HintPath>$(GX_SDK_DIR)\Bin\Artech.Udm.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromiumBrowser">
+      <HintPath>$(GX_PROGRAM_DIR)\ChromiumBrowser.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder">
+			<HintPath>$(GX_PROGRAM_DIR)\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Definition\" />
+    <Folder Include="Templates\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\MLModel.Pattern" Link="Definition\MLModel.Pattern" />
+    <None Include="..\..\Deploy.msbuild" Link="Deploy.msbuild" />
+    <None Include="..\..\GenerateStrongTypedClasses.bat" Link="Definition\GenerateStrongTypedClasses.bat" />
+    <None Include="..\..\Templates\DataProviderSource.dkt" Link="Templates\DataProviderSource.dkt" />
+  </ItemGroup>
+
+</Project>

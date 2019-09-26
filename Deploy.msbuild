@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Deploy" >
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+
+    <PatternName>GeneXus.Patterns.MLModel</PatternName>
+    <PatternPath>$(PatternName)\$(PatternName)</PatternPath>
+    <PatternBuiltPath>$(PatternPath)\bin\$(Configuration)\net471</PatternBuiltPath>
+
+    <DeployTargetPath>$(GX_PROGRAM_DIR)\Packages\Patterns\MLModel</DeployTargetPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <DeployFolder Include="Templates" />
+    <DeployFolder Include="Icons" />
+
+    <DeployFile Include="MLModel.Pattern" />
+    <DeployFile Include="MLModelInstance.xml" />
+    <DeployFile Include="MLModelSettings.xml" />
+    
+    <DeployFile Include="$(PatternBuiltPath)\$(PatternName).dll" />
+  </ItemGroup>
+
+  <Target Name="Deploy">
+    <CreateItem
+      Include="%(DeployFolder.Identity)\**\*.*"
+      AdditionalMetadata="TargetFolder=%(Identity)" >
+      <Output
+        TaskParameter="Include"
+        ItemName="DeployFile"/>
+    </CreateItem>
+
+    <Copy SourceFiles="@(DeployFile)" DestinationFolder="$(DeployTargetPath)\%(DeployFile.TargetFolder)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

@@ -1,0 +1,29 @@
+<%@ Template Language="C#" TargetLanguage="GX" Description="View Events" %>
+<%@ Include Name="Constants.cs" %>
+
+<%@ Property Name="Object" Type="Artech.Architecture.Common.Objects.KBObject" %>
+<%@ Property Name="Part" Type="Artech.Architecture.Common.Objects.KBObjectPart" %>
+<%@ Property Name="Instance" Type="Artech.Packages.Patterns.Objects.PatternInstance" %>
+<%@ Property Name="Element" Type="Artech.Packages.Patterns.Objects.PatternInstanceElement" %>
+<%@ Assembly Name="GeneXus.Patterns.MLModel" %>
+<%@ Import Namespace="global::Genexus.Patterns.MLModel" %>
+
+<%
+	MLModelInstance instance = new MLModelInstance(Instance);
+	var element = instance.GetElement<EntityElement>(Element);
+%>
+
+<Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
+        <Source><![CDATA[<%= element.Transaction.Name %>Collection
+{
+	<% 	foreach (var row in element.Rows) { %>
+		<%= element.Transaction.Name %>
+		{
+			<% foreach (var col in row.Columns) { %>
+				<%= col.Attribute.Name %> = <%= col.Value %>
+			<% } %>
+		}
+	<% } %>
+}
+]]></Source>
+</Part>

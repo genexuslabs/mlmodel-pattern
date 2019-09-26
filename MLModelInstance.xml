@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0" 
+        Name="MLModel" Version="0.2" RootElement="entities" RootType="Entities">
+
+<ElementTypes>
+    
+    <!-- List Of Entities to load -->
+    <ElementType Name="Entities" Caption="Entities" Icon="" Multiple="false">
+        <Attributes>
+            <Attribute Name="DataName" Type="string" />
+        </Attributes>
+        <ChildrenElements>
+            <ChildElement Name="entity" ElementType="Entity" Multiple="true" />
+        </ChildrenElements>
+    </ElementType>    
+
+    <!-- Entity to load -->
+    <ElementType Name="Entity" Caption="Entity {0}" CaptionParameters="transaction">
+        <Attributes>
+            <Attribute Name="name" Type="string" />
+            <Attribute Name="transaction" Type="reference(Transaction)" Description="Reference to the Transaction this set of data is associated" />
+        </Attributes>
+        <ChildrenElements>
+            <ChildElement Name="row" ElementType="Row" Multiple="true" />
+        </ChildrenElements>
+    </ElementType>
+
+    <!-- Row -->
+    <ElementType Name="Row" Caption="Row">
+        <Attributes/>
+        <ChildrenElements>
+            <ChildElement Name="column" ElementType="Column" Multiple="true" />
+        </ChildrenElements>
+    </ElementType>
+
+    <!-- Column -->
+    <ElementType Name="Column" Caption="{0} = {1}" CaptionParameters="attribute;value">
+        <Attributes>
+            <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
+            <Attribute Name="value" Type="string" Description="Value" />
+        </Attributes>
+    </ElementType>
+
+</ElementTypes>
+</Pattern>
