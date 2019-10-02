@@ -22,7 +22,7 @@ namespace Genexus.Patterns.MLModel
 		{
 			get { return PatternEngine.GetPatternDefinition(Id); }
 		}
-
+	
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -44,6 +44,11 @@ namespace Genexus.Patterns.MLModel
 		public override IDefaultInstanceGenerator GetInstanceGenerator()
 		{
 			return new MLModelInstanceGenerator();
+		}
+
+		public override IPatternBuildProcess GetBuildProcess()
+		{
+			return new MLModelBuildProcess();
 		}
 	}
 }
