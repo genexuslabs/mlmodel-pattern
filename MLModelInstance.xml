@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0" 
-        Name="MLModel" Version="0.2" RootElement="entities" RootType="Entities">
+<Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0" Name="MLModel" Version="0.2" RootElement="model" RootType="Model">
 
-<ElementTypes>
-    
-    <!-- List Of Entities to load -->
-    <ElementType Name="Entities" Caption="Entities" Icon="" Multiple="false">
-        <Attributes>
-            <Attribute Name="DataName" Type="string" />
-        </Attributes>
-        <ChildrenElements>
-            <ChildElement Name="entity" ElementType="Entity" Multiple="true" />
-        </ChildrenElements>
-    </ElementType>    
+    <ElementTypes>
 
-    <!-- Entity to load -->
-    <ElementType Name="Entity" Caption="Entity {0}" CaptionParameters="transaction">
-        <Attributes>
-            <Attribute Name="name" Type="string" />
-            <Attribute Name="transaction" Type="reference(Transaction)" Description="Reference to the Transaction this set of data is associated" />
-        </Attributes>
-        <ChildrenElements>
-            <ChildElement Name="row" ElementType="Row" Multiple="true" />
-        </ChildrenElements>
-    </ElementType>
+        <ElementType Name="Model" Caption="ML Model Instance ({0})" CaptionParameters="transaction" Icon="" Multiple="false">
+            <Attributes>
+                <Attribute Name="transaction" Type="reference(Transaction)" Description="Transaction Name." NotNull="true" />
+            </Attributes>
+            <ChildrenElements>
+                <ChildElement Name="inputs" ElementType="Inputs" Multiple="false" />
+                <ChildElement Name="output" ElementType="Output" Multiple="false" />
+            </ChildrenElements>
+        </ElementType>
 
-    <!-- Row -->
-    <ElementType Name="Row" Caption="Row">
-        <Attributes/>
-        <ChildrenElements>
-            <ChildElement Name="column" ElementType="Column" Multiple="true" />
-        </ChildrenElements>
-    </ElementType>
+        <ElementType Name="Inputs" Caption="Inputs" Icon="Input" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+            <ChildrenElements>
+                <ChildElement Name="input" ElementType="Input" Multiple="true" />
+            </ChildrenElements>
+        </ElementType>
 
-    <!-- Column -->
-    <ElementType Name="Column" Caption="{0} = {1}" CaptionParameters="attribute;value">
-        <Attributes>
-            <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
-            <Attribute Name="value" Type="string" Description="Value" />
-        </Attributes>
-    </ElementType>
+        <ElementType Name="Input" Caption="Input: {0}" CaptionParameters="attribute" Icon="ObjectAttribute" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+            <Attributes>
+                <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
+            </Attributes>
+        </ElementType>
 
-</ElementTypes>
+        <ElementType Name="Output" Caption="Output: {0}" CaptionParameters="attribute" Icon="Output" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+            <Attributes>
+                <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
+            </Attributes>
+        </ElementType>
+    </ElementTypes>
 </Pattern>

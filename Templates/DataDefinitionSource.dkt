@@ -12,27 +12,24 @@
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
-    <Source><![CDATA[DataCollection [COUNT = &pageSize] [SKIP = (&pageNum - 1) * &pageSize]
+    <Source><![CDATA[DataDefinition
 {
-	Data
+	Input
 	{
-		Purpose = Purpose.Train
-		Input
+		Columns
 		{
-			Resource = ''
-			Columns
-			{
 	<% 	foreach (var input in instance.Inputs) { %>
-				Column {
-					Value = <%= input.Attribute.Name %>.ToString()
-				}
-	<% 	} %>
+			Column {
+				Name = '<%= input.Attribute.Name %>'
+				Type = ColumnType.Numeric
+				// Type = ColumnType.Category
 			}
+	<% 	} %>
 		}
-		Output
-		{
-			Value = <%= instance.Output.Attribute.Name %>
-		}
+	}
+	Otput
+	{
+		Type = ColumnType.Numeric
 	}
 }
 ]]></Source>

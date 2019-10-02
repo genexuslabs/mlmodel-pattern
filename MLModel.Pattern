@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Pattern xmlns="http://schemas.genexus.com/Patterns/Definition/v1.0" 
 				 Publisher="Genexus" 
-				 Id="0A957A50-C1E5-42FF-84FB-B55980FD2638" 
+				 Id="0A957A50-C1E5-42FF-84FB-B55980FD2638"
 				 Name="MLModel" 
-				 Description="Machine Learning Model Definition" 
+				 Description="Machine Learning Model" 
 				 Version="1.0" 
-				 Icon="Icons\MLModel.ico"
+				 Icon="Icons\MLModelPattern.ico"
 	>
 	<Definition>
-		<InstanceName>MLModel{0}</InstanceName>
+		<InstanceName>{0}_MLModel</InstanceName>
 		<InstanceSpecification>MLModelInstance.xml</InstanceSpecification>
 		<Implementation>GeneXus.Patterns.MLModel.dll</Implementation>
+		<ParentObjects>
+			<ParentObject Type="Transaction" />
+		</ParentObjects>
 	</Definition>
 	<Objects>
-		<Object Type="DataProvider" Id="Loader" Name="Get{Element.name}" Count="*" Element="entities/entity">
+		<Object Type="DataProvider" Id="DataProvider" Name="{Parent.Name}MLModelDataProvider">
 			<Part Type="DataProviderSource" Template="Templates\DataProviderSource.dkt" />
+			<Part Type="Variables" Template="Templates\DataProviderVariables.dkt" />
+			<Part Type="Rules" Template="Templates\DataProviderRules.dkt" />
+		</Object>
+		<Object Type="DataProvider" Id="DataDefinition" Name="{Parent.Name}MLModelDataDefinition">
+			<Part Type="DataProviderSource" Template="Templates\DataDefinitionSource.dkt" />
 		</Object>
 	</Objects>
 </Pattern>

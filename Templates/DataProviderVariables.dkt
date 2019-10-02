@@ -1,0 +1,15 @@
+<%@ Template Language="C#" TargetLanguage="GX" Description="Data Provider Variables" %>
+
+<%@ Assembly Name="GeneXus.Patterns.MLModel" %>
+
+<Part type="e4c4ade7-53f0-4a56-bdfd-843735b66f47">
+    <Variable Name="pageNum">
+        <Documentation />
+        <Properties><Property><Name>Name</Name><Value>pageNum</Value></Property></Properties>
+    </Variable>
+    <Variable Name="pageSize">
+        <Documentation />
+        <Properties><Property><Name>Name</Name><Value>pageSize</Value></Property></Properties>
+    </Variable>
+    <Properties><Property><Name>IsDefault</Name><Value>False</Value></Property></Properties>
+</Part>

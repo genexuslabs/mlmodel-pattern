@@ -20,7 +20,7 @@ namespace Genexus.Patterns.MLModel
 
 		public static PatternDefinition Definition
 		{
-			get {  return PatternEngine.GetPatternDefinition(Id); }
+			get { return PatternEngine.GetPatternDefinition(Id); }
 		}
 
 		public override void Initialize()
@@ -39,6 +39,11 @@ namespace Genexus.Patterns.MLModel
 		[EventSubscription(ArchitectureEvents.AfterSaveKBObject)]
 		public void OnAfterSave(object sender, KBObjectSaveEventArgs args)
 		{
+		}
+
+		public override IDefaultInstanceGenerator GetInstanceGenerator()
+		{
+			return new MLModelInstanceGenerator();
 		}
 	}
 }

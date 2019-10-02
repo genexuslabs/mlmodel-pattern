@@ -5,6 +5,7 @@
     <TargetFramework>net471</TargetFramework>
 		<GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
 		<GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
+		<RootNamespace>Genexus.Patterns.MLModel</RootNamespace>
 	</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x86</PlatformTarget>
@@ -84,6 +85,30 @@
     <None Include="..\..\Deploy.msbuild" Link="Deploy.msbuild" />
     <None Include="..\..\GenerateStrongTypedClasses.bat" Link="Definition\GenerateStrongTypedClasses.bat" />
     <None Include="..\..\Templates\DataProviderSource.dkt" Link="Templates\DataProviderSource.dkt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Images.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
