@@ -4,8 +4,8 @@ This pattern creates the necessary GeneXus objects to be used with the [GeneXusA
 ## Building
 
 Building requires the following environment variables to be set (or passed as properties in the MSBuild invokation):
-- GX_PROGRAM_DIR - pointing to your local GX installation
-- GX_SDK_DIR - pointing to your local GX SDK installation
+- `GX_PROGRAM_DIR` - pointing to your local GeneXus installation
+- `GX_SDK_DIR` - pointing to your local GeneXus SDK installation
 
 To build (and deploy) the pattern run the following command:
 
