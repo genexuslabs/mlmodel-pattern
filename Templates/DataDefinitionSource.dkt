@@ -21,15 +21,14 @@
 	<% 	foreach (var input in instance.Inputs) { %>
 			Column {
 				Name = '<%= input.Attribute.Name %>'
-				Type = ColumnType.Numeric
-				// Type = ColumnType.Category
+				Type = ColumnType.<%= input.ColumnType %>
 			}
 	<% 	} %>
 		}
 	}
-	Otput
+	Output
 	{
-		Type = ColumnType.Numeric
+		Type = ColumnType.<%= instance.Output.ColumnType %>
 	}
 }
 ]]></Source>

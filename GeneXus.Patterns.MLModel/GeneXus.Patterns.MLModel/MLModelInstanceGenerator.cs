@@ -27,16 +27,22 @@ namespace Genexus.Patterns.MLModel
 
 			mlModelInstance.Transaction = trn;
 
+			TransactionAttribute outputAtt = BestGuessForOutputAttribute(trn);
+
 			mlModelInstance.Inputs.AddRange(
 				trn.Structure.Root.Attributes
 					.Where(ShouldAddToDefaultInstance)
-					.Where(att => att != BestGuessForOutputAttribute(trn))
-					.Select(att => new InputElement() { Attribute = att })
+					.Where(att => att != outputAtt)
+					.Select(att => new InputElement() {
+						Attribute = att,
+						ColumnType = ColumnTypeFromAttribute(att)
+					})
 			);
 
 			mlModelInstance.Output = new OutputElement()
 			{
-				Attribute = BestGuessForOutputAttribute(trn)
+				Attribute = outputAtt,
+				ColumnType = ColumnTypeFromAttribute(outputAtt)
 			};
 
 			mlModelInstance.SaveTo(instance);
@@ -58,7 +64,7 @@ namespace Genexus.Patterns.MLModel
 			return true;
 		}
 
-		private Artech.Genexus.Common.Objects.Attribute BestGuessForOutputAttribute(Transaction trn)
+		private TransactionAttribute BestGuessForOutputAttribute(Transaction trn)
 		{
 			IEnumerable<TransactionAttribute> candidateAtts = trn.Structure.Root.Attributes
 				.Reverse()
@@ -70,8 +76,12 @@ namespace Genexus.Patterns.MLModel
 				return null;
 
 			TransactionAttribute bestCandidate = candidateAtts.FirstThat(att => att.TableAttribute.Attribute.Decimals > 0) ?? candidateAtts.First();
+			return bestCandidate;
+		}
 
-			return bestCandidate.TableAttribute.Attribute;
+		private string ColumnTypeFromAttribute(TransactionAttribute att)
+		{
+			return att.TableAttribute.Attribute.Type == eDBType.NUMERIC ? "Numeric" : "Category";
 		}
 	}
 }
