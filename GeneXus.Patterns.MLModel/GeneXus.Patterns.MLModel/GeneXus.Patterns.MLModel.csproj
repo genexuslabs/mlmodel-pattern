@@ -33,6 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Artech.Architecture.BL.Framework">
+      <HintPath>..\..\..\..\..\Program Files (x86)\GeneXus\GeneXusBetaPlatformSDK\Bin\Artech.Architecture.BL.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Artech.Architecture.Common">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.Common.dll</HintPath>
     </Reference>
