@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <Target Name="GenerateSources">
-    <Exec Command="GenerateStrongTypedClasses.bat" />
+    <Exec Command="GenerateStrongTypedClasses.bat $(GX_SDK_DIR) $(GX_PROGRAM_DIR)" />
   </Target>
 
   <Target Name="BuildSolution">

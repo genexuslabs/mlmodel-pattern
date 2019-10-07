@@ -9,6 +9,7 @@
 
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
+	string outColumnType = instance.Output != null ? instance.Output.ColumnType : "Numeric";
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
@@ -28,7 +29,7 @@
 	}
 	Output
 	{
-		Type = ColumnType.<%= instance.Output.ColumnType %>
+		Type = ColumnType.<%= outColumnType %>
 	}
 }
 ]]></Source>

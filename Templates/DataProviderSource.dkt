@@ -9,6 +9,7 @@
 
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
+	string outValue = instance.Output != null ? instance.Output.Attribute.Name : "'0'";
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
@@ -31,7 +32,7 @@
 		}
 		Output
 		{
-			Value = <%= instance.Output.Attribute.Name %>
+			Value = <%= outValue %>
 		}
 	}
 }

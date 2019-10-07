@@ -81,6 +81,9 @@ namespace Genexus.Patterns.MLModel
 
 		private string ColumnTypeFromAttribute(TransactionAttribute att)
 		{
+			if (att == null) {
+				return "Numeric";
+			}
 			return att.TableAttribute.Attribute.Type == eDBType.NUMERIC ? "Numeric" : "Category";
 		}
 	}
