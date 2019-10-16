@@ -10,26 +10,32 @@
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
 	string outColumnType = instance.Output != null ? instance.Output.ColumnType : "Numeric";
+	string parentName = instance.ParentObject.Name;
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
-    <Source><![CDATA[DataDefinition
+    <Source><![CDATA[Definition
 {
+	Name = '<%= parentName %> ML Model'
+	Dataset
+	{
+		Loader = '<%= parentName %>MLModelDataProvider'
+	}
 	Input
 	{
-		Columns
+		Features
 		{
 	<% 	foreach (var input in instance.Inputs) { %>
-			Column {
+			Feature {
 				Name = '<%= input.Attribute.Name %>'
-				Type = ColumnType.<%= input.ColumnType %>
+				Type = GeneXusAI.Custom.DataInputType.<%= input.ColumnType %>
 			}
 	<% 	} %>
 		}
 	}
 	Output
 	{
-		Type = ColumnType.<%= outColumnType %>
+		Type = GeneXusAI.Custom.DataOutputType.<%= outColumnType %>
 	}
 }
 ]]></Source>

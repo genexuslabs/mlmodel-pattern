@@ -34,10 +34,10 @@ namespace Genexus.Patterns.MLModel
 				}
 				else
 				{
-					outputSDTName = "DataDefinition";
+					outputSDTName = "Definition";
 				}
 
-				SDT outputSDT = SDT.Get(instanceObject.Model, new QualifiedName(outputSDTName));
+				SDT outputSDT = SDT.Get(instanceObject.Model, new QualifiedName("GeneXusAI.Custom", outputSDTName));
 				if (outputSDT != null)
 				{
 					props.Add(new KeyValuePair<string, object>("OutputSDT", new DataProviderOutputReference(outputSDT)));

@@ -84,7 +84,7 @@ namespace Genexus.Patterns.MLModel
 			if (att == null) {
 				return "Numeric";
 			}
-			return att.TableAttribute.Attribute.Type == eDBType.NUMERIC ? "Numeric" : "Category";
+			return att.TableAttribute.Attribute.Type == eDBType.NUMERIC ? "Numeric" : "Label";
 		}
 	}
 }

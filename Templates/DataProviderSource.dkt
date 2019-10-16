@@ -17,22 +17,18 @@
 {
 	Data
 	{
-		Purpose = Purpose.Train
 		Input
 		{
-			Resource = ''
-			Columns
+			Features
 			{
 	<% 	foreach (var input in instance.Inputs) { %>
-				Column {
-					Value = <%= input.Attribute.Name %>.ToString()
-				}
+				Value = <%= input.Attribute.Name %>.ToString()
 	<% 	} %>
 			}
 		}
 		Output
 		{
-			Value = <%= outValue %>
+			Numeric = <%= outValue %>
 		}
 	}
 }

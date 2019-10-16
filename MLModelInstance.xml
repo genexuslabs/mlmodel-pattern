@@ -22,14 +22,14 @@
         <ElementType Name="Input" Caption="Input: {0} ({1})" CaptionParameters="attribute;columnType" Icon="ObjectAttribute" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <Attributes>
                 <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
-                <Attribute Name="columnType" Type="enum{Numeric;Category}" Description="Column Type" DefaultValue="Numeric" />
+                <Attribute Name="columnType" Type="enum{Numeric;Label}" Description="Column Type" DefaultValue="Numeric" />
             </Attributes>
         </ElementType>
 
         <ElementType Name="Output" Caption="Output: {0} ({1})" CaptionParameters="attribute;columnType" Icon="Output" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <Attributes>
                 <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
-                <Attribute Name="columnType" Type="enum{Numeric;Category}" Description="Column Type" DefaultValue="Numeric" />
+                <Attribute Name="columnType" Type="enum{Numeric;Label}" Description="Column Type" DefaultValue="Numeric" />
             </Attributes>
         </ElementType>
     </ElementTypes>
