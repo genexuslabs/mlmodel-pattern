@@ -13,9 +13,9 @@
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
-    <Source><![CDATA[DataCollection [COUNT = &pageSize] [SKIP = (&pageNum - 1) * &pageSize]
+    <Source><![CDATA[DataCollection
 {
-	Data
+	Data [COUNT = &pageSize] [SKIP = (&pageNum - 1) * &pageSize]
 	{
 		Input
 		{
