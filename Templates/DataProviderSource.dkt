@@ -13,22 +13,31 @@
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
-    <Source><![CDATA[DataCollection
+    <Source><![CDATA[DataCollection [COUNT = &pageSize] [SKIP = (&pageNum - 1) * &pageSize]
 {
-	Data [COUNT = &pageSize] [SKIP = (&pageNum - 1) * &pageSize]
+	Dummy [NoOutput]
 	{
-		Input
-		{
-			Features
-			{
+
 	<% 	foreach (var input in instance.Inputs) { %>
-				Value = <%= input.Attribute.Name %>.ToString()
+		&<%= input.Attribute.Name %> = <%= input.Attribute.Name %>
 	<% 	} %>
-			}
-		}
-		Output
+		&<%= outValue %> = <%= outValue %>
+
+		Data 
 		{
-			Numeric = <%= outValue %>
+			Input
+			{
+				Features
+				{
+		<% 	foreach (var input in instance.Inputs) { %>
+					Value = &<%= input.Attribute.Name %>.ToString().Trim()
+		<% 	} %>
+				}
+			}
+			Output
+			{
+				Numeric = &<%= outValue %>
+			}
 		}
 	}
 }

@@ -1,6 +1,12 @@
 <%@ Template Language="C#" TargetLanguage="GX" Description="Data Provider Variables" %>
 
+<%@ Property Name="Instance" Type="Artech.Packages.Patterns.Objects.PatternInstance" %>
 <%@ Assembly Name="GeneXus.Patterns.MLModel" %>
+<%@ Import Namespace="global::Genexus.Patterns.MLModel" %>
+
+<%
+	MLModelInstance instance = new MLModelInstance(Instance);
+%>
 
 <Part type="e4c4ade7-53f0-4a56-bdfd-843735b66f47">
     <Variable Name="pageNum">
@@ -11,5 +17,43 @@
         <Documentation />
         <Properties><Property><Name>Name</Name><Value>pageSize</Value></Property></Properties>
     </Variable>
+<% 	foreach (var input in instance.Inputs) { %>
+    <Variable Name="<%= input.Attribute.Name %>">
+        <Documentation />
+        <Properties>
+            <Property>
+                <Name>Name</Name>
+                <Value><%= input.Attribute.Name %></Value>
+            </Property>
+            <Property>
+                <Name>idIsAutoDefinedVariable</Name>
+                <Value>False</Value>
+            </Property>
+            <Property>
+                <Name>idBasedOn</Name>
+                <Value>Attribute:<%= input.Attribute.Name %></Value>
+            </Property>
+        </Properties>
+    </Variable>
+<% 	} %>
+<% if (instance.Output != null) { %>
+    <Variable Name="<%= instance.Output.Attribute.Name %>">
+        <Documentation />
+        <Properties>
+            <Property>
+                <Name>Name</Name>
+                <Value><%= instance.Output.Attribute.Name %></Value>
+            </Property>
+            <Property>
+                <Name>idIsAutoDefinedVariable</Name>
+                <Value>False</Value>
+            </Property>
+            <Property>
+                <Name>idBasedOn</Name>
+                <Value>Attribute:<%= instance.Output.Attribute.Name %></Value>
+            </Property>
+        </Properties>
+    </Variable>
+<% } %>
     <Properties><Property><Name>IsDefault</Name><Value>False</Value></Property></Properties>
 </Part>
