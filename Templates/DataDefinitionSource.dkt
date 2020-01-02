@@ -19,7 +19,7 @@
 	Name = '<%= parentName %> ML Model'
 	Dataset
 	{
-		Loader = '<%= parentName %>MLModelDataProvider'
+		Loader = link(<%= parentName %>MLModelDataProvider)
 	}
 	Input
 	{
