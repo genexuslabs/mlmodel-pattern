@@ -1,12 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project=".\Environment2.targets" Condition="Exists('.\Environment.targets')" />
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-		<GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
-		<GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
-		<RootNamespace>Genexus.Patterns.MLModel</RootNamespace>
-	</PropertyGroup>
     <GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
     <GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
     <RootNamespace>Genexus.Patterns.MLModel</RootNamespace>
