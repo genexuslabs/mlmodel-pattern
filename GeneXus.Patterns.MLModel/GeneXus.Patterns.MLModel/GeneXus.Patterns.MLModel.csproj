@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project=".\Environment2.targets" Condition="Exists('.\Environment.targets')" />
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-		<GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
-		<GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
-		<RootNamespace>Genexus.Patterns.MLModel</RootNamespace>
-	</PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x86</PlatformTarget>
+    <GX_SDK_DIR Condition="'$(GX_SDK_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug\SDK\SDKBase</GX_SDK_DIR>
+    <GX_PROGRAM_DIR Condition="'$(GX_PROGRAM_DIR)' == ''">C:\GeneXus\TeroNet\Deploy\GeneXus\Debug</GX_PROGRAM_DIR>
+    <RootNamespace>Genexus.Patterns.MLModel</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="EditorHost\**" />
@@ -35,42 +31,55 @@
   <ItemGroup>
     <Reference Include="Artech.Architecture.Common">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Architecture.Interfaces">
       <HintPath>$(GX_PROGRAM_DIR)\Artech.Architecture.Interfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Architecture.Language">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.Language.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Architecture.UI.Framework">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Architecture.UI.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Common">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Common.Framework">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Common.Helpers">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Helpers.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Common.Properties">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Common.Properties.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Genexus.Common">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Genexus.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Packages.Patterns">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Packages.Patterns.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Artech.Udm.Framework">
       <HintPath>$(GX_SDK_DIR)\Bin\Artech.Udm.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ChromiumBrowser">
       <HintPath>$(GX_PROGRAM_DIR)\ChromiumBrowser.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ObjectBuilder">
-			<HintPath>$(GX_PROGRAM_DIR)\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+      <HintPath>$(GX_PROGRAM_DIR)\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -88,6 +97,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="$(GX_SDK_DIR)\Src\CommonPackageInfo.cs">
+      <Link>Properties\CommonPackageInfo.cs</Link>
+    </Compile>
     <Compile Update="Resources\Images.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

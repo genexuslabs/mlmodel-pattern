@@ -6,7 +6,6 @@ using Artech.Packages.Patterns.Definition;
 using Microsoft.Practices.CompositeUI.EventBroker;
 using System;
 
-[assembly: PackageCompatibility(Version = 123130)]
 [assembly: PatternImplementation(typeof(Genexus.Patterns.MLModel.MLModelPattern))]
 
 namespace Genexus.Patterns.MLModel
