@@ -9,6 +9,7 @@
 
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
+	string outColumnType = instance.Output != null ? instance.Output.ColumnType : "Numeric";
 	string outValue = instance.Output != null ? instance.Output.Attribute.Name : "'0'";
 %>
 
@@ -27,8 +28,7 @@
 		{
 			Input
 			{
-				Features
-				{
+				Features {
 		<% 	foreach (var input in instance.Inputs) { %>
 					Value = &<%= input.Attribute.Name %>.ToString().Trim()
 		<% 	} %>
@@ -36,7 +36,7 @@
 			}
 			Output
 			{
-				Numeric = &<%= outValue %>
+				<%= outColumnType %> = &<%= outValue %>
 			}
 		}
 	}
