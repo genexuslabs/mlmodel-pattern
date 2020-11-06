@@ -1,35 +1,582 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0" Name="MLModel" Version="0.2" RootElement="model" RootType="Model">
+<Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0"
+         Name="MLModel"
+         Version="0.3"
+         RootElement="model"
+         RootType="Model">
 
     <ElementTypes>
-
-        <ElementType Name="Model" Caption="ML Model Instance ({0})" CaptionParameters="transaction" Icon="" Multiple="false">
+    
+        <ElementType Name="Model"
+                     Caption="Machine Learning Model Instance ({0})"
+                     CaptionParameters="transaction"
+                     Icon=""
+                     Multiple="false">
             <Attributes>
-                <Attribute Name="transaction" Type="reference(Transaction)" Description="Transaction Name." NotNull="true" />
+                <Attribute Name="transaction"
+                           Type="reference(Transaction)"
+                           Description="Transaction Name."
+                           NotNull="true" />
             </Attributes>
             <ChildrenElements>
-                <ChildElement Name="inputs" ElementType="Inputs" Multiple="false" />
-                <ChildElement Name="output" ElementType="Output" Multiple="false" />
+                <ChildElement Name="inputs"
+                              ElementType="Inputs"
+                              Multiple="false" />
+                <ChildElement Name="output"
+                              ElementType="Output"
+                              Multiple="false" />
             </ChildrenElements>
         </ElementType>
 
-        <ElementType Name="Inputs" Caption="Inputs" Icon="Input" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+        <ElementType Name="Inputs"
+                     Caption="Inputs"
+                     Icon="Input"
+                     IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <ChildrenElements>
-                <ChildElement Name="input" ElementType="Input" Multiple="true" />
+                <ChildElement Name="input"
+                              ElementType="Input"
+                              Multiple="true" />
             </ChildrenElements>
         </ElementType>
 
-        <ElementType Name="Input" Caption="Input: {0} ({1})" CaptionParameters="attribute;columnType" Icon="ObjectAttribute" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+        <ElementType Name="Input"
+                     Caption="{0} ({1})"
+                     CaptionParameters="attribute;columnType"
+                     Icon="ObjectAttribute"
+                     IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <Attributes>
-                <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
-                <Attribute Name="columnType" Type="enum{Boolean;Numeric;Label;Audio;Image;Text}" Description="Column Type" DefaultValue="Numeric" />
+                
+                <Attribute Name="attribute"
+                           Type="reference(Attribute)"
+                           Description="Attribute name" />
+                
+                <Attribute Name="columnType"
+                           Type="enum{Boolean;Numeric;Category;Text;Audio;Image;Video;Datetime;Geopoint;Region;Vector;Set}"
+                           DefaultValue="Numeric"
+                           PrettyName="Data Input Type"
+                           Description="Attribute data input type." />
+                
+                <!-- Pre-General properties -->
+                <Attribute Name="elementType"
+                           Type="enum{Numerics;Characters}"
+                           DefaultValue="Numerics"
+                           Description="Element type."
+                           ApplyIf="//input[@columnType = 'Category' or @columnType = 'Vector' or @columnType = 'Set']"
+                           VisibleIf="self::*[@columnType = 'Category' or @columnType = 'Vector' or @columnType = 'Set']"/>
+                           
+                <Attribute Name="missingValueStrategyNumeric"
+                           Type="enum{Fill with constant;Fill with mean;Fill with mode;Fill with max;Fill with min;Fill with last;Fill with random;Ignore}"
+                           DefaultValue="Fill with constant"
+                           PrettyName="Missing Value Strategy"
+                           Description="Strategy to be applied when the value is missing."
+                           ApplyIf="//input[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]" 
+                           VisibleIf="self::*[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]"/> 
+
+                <Attribute Name="missingValueStrategy"
+                           Type="enum{Fill with constant;Fill with mean;Fill with mode;Fill with last;Fill with random;Ignore}"
+                           DefaultValue="Fill with constant"
+                           PrettyName="Missing Value Strategy"
+                           Description="Strategy to be applied when the value is missing."
+                           ApplyIf="//input[@columnType = 'Boolean' or (@columnType = 'Category' and @elementType != 'Numerics') or @columnType = 'Text' or @columnType = 'Datetime' or @columnType = 'Geopoint']" 
+                           VisibleIf="self::*[@columnType = 'Boolean' or (@columnType = 'Category' and @elementType != 'Numerics') or @columnType = 'Text' or @columnType = 'Datetime' or @columnType = 'Geopoint']"/> 
+                
+                <!-- Boolean type -->
+                <Attribute Name="fillValueBoolean"
+                           Type="bool"
+                           DefaultValue="false"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and @columnType = 'Boolean']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and @columnType = 'Boolean']"/>
+                
+                <!-- Numeric type -->
+                <Attribute Name="fillValueNumeric"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Numeric']"
+                           ApplyIf="//input[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Numeric']"/>
+                
+                <!-- Category type -->
+                <Attribute Name="fillValueCategoryNumerics"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Numerics']"
+                           ApplyIf="//input[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Numerics']"/>
+                
+                <Attribute Name="fillValueCategoryCharacters"
+                           Type="string"
+                           DefaultValue="&lt;UNK&gt;"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Characters']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Characters']"/>
+                
+                <Attribute Name="mostCommonCategory"
+                           Type="int"
+                           DefaultValue="10000"
+                           Description="Defines the maximum number of most common categories to be considered. If data contains more than this amount, the most infrequent categories are treated as unknown."
+                           PrettyName="Most Common"
+                           VisibleIf="self::*[@columnType = 'Category']"
+                           ApplyIf="//input[@columnType = 'Category']"/>
+                
+                <!-- Text type -->
+                <Attribute Name="fillValueText"
+                           Type="string"
+                           DefaultValue="&lt;EOS&gt;"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and @columnType = 'Text']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and @columnType = 'Text']"/>
+                
+                <Attribute Name="removeDiacriticsText"
+                           Type="bool"
+                           DefaultValue="True"
+                           PrettyName="Remove Diacritics"
+                           Description="Indicates if the value has to remove diacritics (e.g. accented characters)."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="stopwordsFileText"
+                           Type="reference(File)"
+                           DefaultValue="False"
+                           PrettyName="Stopwords File"
+                           Description="References a File object containing a list of stopwords to be filtered."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="maxCharactersText"
+                           Type="string"
+                           DefaultValue="1024"
+                           PrettyName="Max Characters"
+                           Description="Defines the maximum lenght in terms of characters. Longer values will be truncated, while shorter values will be padded."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="characterPaddingDirectionText"
+                           Type="enum{Left;Right}"
+                           DefaultValue="Left"
+                           PrettyName="Character Padding Direction"
+                           Description="Indicates the direction of the padding in terms of characters."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="characterPaddingSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;CHR&gt;"
+                           PrettyName="Character Padding Symbol"
+                           Description="Defines the character token used as padding symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="maxWordsText"
+                           Type="string"
+                           DefaultValue="256"
+                           PrettyName="Max Words"
+                           Description="Defines the maximum lenght in terms of words. Longer values will be truncated, while shorter values will be padded."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="wordPaddingDirectionText"
+                           Type="enum{Left;Right}"
+                           DefaultValue="Left"
+                           PrettyName="Word Padding"
+                           Description="Indicates the direction of the padding in terms of words."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="wordPaddingSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;WRD&gt;"
+                           PrettyName="Word Padding Symbol"
+                           Description="Defines the word token used as a padding symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="mostCommonText"
+                           Type="int"
+                           DefaultValue="20000"
+                           Description="Defines the maximum number of most common words to be considered (in terms of frequency). If data contains more than this amount, the most infrequent words are treated as unknown."
+                           PrettyName="Most Common"
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="unknownSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;UNK&gt;"
+                           PrettyName="Unknown Symbol"
+                           Description="Defines the token used as an unknown symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <Attribute Name="tokenizerText"
+                           Type="enum{Space and Punctuation;Space;Punctuation;Underscore;Comma}"
+                           DefaultValue="Space"
+                           PrettyName="Tokenizer"
+                           Description="Defines the criteria used for spliting the value into a sequence of tokens."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//input[@columnType = 'Text']"/>
+                
+                <!-- Audio/Video data -->
+                <Attribute Name="formatAudio"
+                           Type="enum{Default;MP3;OGG;WAV;PCM;MULAW;LINEAR16}"
+                           DefaultValue="Default"
+                           Description="Desired format."
+                           PrettyName="Format"
+                           VisibleIf="self::*[@columnType = 'Audio']"
+                           ApplyIf="//input[@columnType = 'Audio']"/>
+                           
+                <Attribute Name="maxDurationMedia"
+                           Type="int"
+                           DefaultValue="0"
+                           Description="Defines the maximum duration in milliseconds (ms). A value of '0' indicates to use the full length."
+                           PrettyName="Max Duration"
+                           VisibleIf="self::*[@columnType = 'Audio' or @columnType = 'Video']"
+                           ApplyIf="//input[@columnType = 'Audio' or @columnType = 'Video']"/>
+                
+                <Attribute Name="tracksAudio"
+                           Type="enum{Default;1 (Mono);2 (Stereo)}"
+                           DefaultValue="Default"
+                           Description="Defines the maximum tracks channles to be considered."
+                           PrettyName="Track Channels"
+                           VisibleIf="self::*[@columnType = 'Audio']"
+                           ApplyIf="//input[@columnType = 'Audio']"/>
+                
+                <Attribute Name="sampleRateMedia"
+                           Type="int"
+                           DefaultValue="22050"
+                           Description="Defines the sample rate in Hertz (Hz)."
+                           PrettyName="Sample Rate"
+                           VisibleIf="self::*[@columnType = 'Audio']"
+                           ApplyIf="//input[@columnType = 'Audio']"/>
+                
+                <!-- Image/Video data -->
+                <Attribute Name="formatImage"
+                           Type="enum{Default;PNG;JPEG;BMP}"
+                           DefaultValue="Default"
+                           Description="Desired format."
+                           PrettyName="Format"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"/>
+                           
+                <Attribute Name="scaleTypeMedia"
+                           Type="enum{No scale;Fit;Fill;Fill keeping aspect ratio}"
+                           DefaultValue="No scale"
+                           Description="Defines the scaling strategy used to achieve the desired width and height."
+                           PrettyName="Scale Type"
+                           VisibleIf="self::*[@columnType = 'Image' or @columnType = 'Video']"
+                           ApplyIf="//input[@columnType = 'Image' or @columnType = 'Video']"/>
+                           
+                <Attribute Name="widthMedia"
+                           Type="int"
+                           DefaultValue="0"
+                           Description="Defines the width in pixels (px). A value of 0 means to preserve the width."
+                           PrettyName="Width"
+                           VisibleIf="self::*[@columnType = 'Image' or @columnType = 'Video']"
+                           ApplyIf="//input[@columnType = 'Image' or @columnType = 'Video']"/>
+                           
+                <Attribute Name="heightMedia"
+                           Type="int"
+                           DefaultValue="0"
+                           Description="Defines the height in pixels (px). A value of 0 means to preserve the height."
+                           PrettyName="Height"
+                           VisibleIf="self::*[@columnType = 'Image' or @columnType = 'Video']"
+                           ApplyIf="//input[@columnType = 'Image' or @columnType = 'Video']"/>
+                           
+                <Attribute Name="channelsImage"
+                           Type="enum{Default;1 (Grayscaled);3 (RGB, HSV w/transparency);4 (CMYK)}"
+                           DefaultValue="Default"
+                           Description="Defines the maximum color channels."
+                           PrettyName="Color Channels"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"/>
+
+                <Attribute Name="addHFlipImage"
+                           Type="bool"
+                           DefaultValue="True"
+                           Description="Adds a horizontally flipped copy of the image to the trainig data set."
+                           PrettyName="Add Horizontally Flipped"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+                
+                <Attribute Name="addRotated"
+                           Type="string"
+                           DefaultValue="30,-30"
+                           Description="List of rotation angles to apply to the image (comman separated). For each specified rotation angle, a new image will be generated and added to the training set."
+                           PrettyName="Add Vertically Flipped"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+
+                <Attribute Name="addVFlipImage"
+                           Type="bool"
+                           DefaultValue="True"
+                           Description="Adds a vertically flipped copy of the image to the trainig data set"
+                           PrettyName="Add Vertically Flipped"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+
+                <Attribute Name="addDecolored"
+                           Type="bool"
+                           DefaultValue="True"
+                           Description="Adds a decolorated copy of the image to the trainig data set"
+                           PrettyName="Add Decolored"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+
+                <Attribute Name="addDetextured"
+                           Type="bool"
+                           DefaultValue="True"
+                           Description="Adds a detextured copy of the image to the trainig data set"
+                           PrettyName="Add Detextured"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+
+                <Attribute Name="addEdgeSalient"
+                           Type="bool"
+                           DefaultValue="True"
+                           Description="Adds an edge salient copy of the image to the trainig data set"
+                           PrettyName="Add Edge Salient"
+                           VisibleIf="self::*[@columnType = 'Image']"
+                           ApplyIf="//input[@columnType = 'Image']"
+                />
+
+                <!-- Video data -->
+                <Attribute Name="formatVideo"
+                           Type="enum{Default;MP4;AVI}"
+                           DefaultValue="Default"
+                           Description="Desired format."
+                           PrettyName="Format"
+                           VisibleIf="self::*[@columnType = 'Video']"
+                           ApplyIf="//input[@columnType = 'Video']"/>
+                
+                <!-- Datetime data -->
+                <Attribute Name="fillValueDatetime"
+                           Type="string"
+                           DefaultValue="01/01/0001"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and @columnType = 'Datetime']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and @columnType = 'Datetime']"/>
+                           
+                <Attribute Name="datetimeFormatDatetime"
+                           Type="enum{UNIX epoch;Date only;Time only;Date and Time}"
+                           DefaultValue="Date and Time"
+                           Description="Desired format."
+                           PrettyName="Format"
+                           VisibleIf="self::*[@columnType = 'Datetime']"
+                           ApplyIf="//input[@columnType = 'Datetime']"/>
+                           
+                <Attribute Name="dateFormatDatetime"
+                           Type="enum{Default;Year with two digits;Year with four digits}"
+                           DefaultValue="Default"
+                           Description="Desired date format."
+                           PrettyName="Date Format"
+                           VisibleIf="self::*[@columnType = 'Datetime' and @datetimeFormatDatetime != 'UNIX epoch' and @datetimeFormatDatetime != 'Time only']"
+                           ApplyIf="//input[@columnType = 'Datetime' and @datetimeFormatDatetime != 'UNIX epoch' and @datetimeFormatDatetime != 'Time only']"/>
+                          
+                <Attribute Name="timeFormatDatetime"
+                           Type="enum{Default;Hours and Minutes;Hours, Minutes and Seconds;Hours, Minutes, Seconds and Milliseconds}"
+                           DefaultValue="Default"
+                           Description="Desired time format."
+                           PrettyName="Time Format"
+                           VisibleIf="self::*[@columnType = 'Datetime' and @datetimeFormatDatetime != 'UNIX epoch' and @datetimeFormatDatetime != 'Date only']"
+                           ApplyIf="//input[@columnType = 'Datetime' and @datetimeFormatDatetime != 'UNIX epoch' and @datetimeFormatDatetime != 'Date only']"/>
+                
+                <!-- Geopoint data -->
+                <Attribute Name="fillValueGeopoint"
+                           Type="string"
+                           DefaultValue="0.00,0.00"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and @columnType = 'Geopoint']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and @columnType = 'Geopoint']"/>
+                
+                <Attribute Name="formatGeopoint"
+                           Type="enum{Longitude,Latitude;GeoHash;H3 (Hexagonal Hierarchical Spatial Index)}"
+                           DefaultValue="Longitude,Latitude"
+                           PrettyName="Format"
+                           Description="Desired format."
+                           VisibleIf="self::*[@columnType = 'Geopoint']"
+                           ApplyIf="//input[@columnType = 'Geopoint']"/>
+                
+                <!-- Region data -->
+
+                <Attribute Name="formatRegion"
+                           Type="enum{(Top,Left,Width,Height);(Top,Left,Bottom,Right)}"
+                           DefaultValue="(Top,Left,Width,Height)"
+                           PrettyName="Format"
+                           Description="Desired format."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//input[@columnType = 'Region']"
+                />
+
+                <Attribute Name="separatorRegion"
+                           Type="enum{Comma;Whitespace}"
+                           DefaultValue="Comma"
+                           PrettyName="Separator"
+                           Description="Separator to use between values."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//input[@columnType = 'Region']"
+                />
+
+                <Attribute Name="fitToRectangleRegion"
+                           Type="bool"
+                           DefaultValue="True"
+                           PrettyName="Fit to Rectangle"
+                           Description="Indicates if the region should be fit to a rectangle."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//input[@columnType = 'Region']"
+                />
+
+                <!-- Vector/Set data -->
+                <Attribute Name="separatorVetorOrSet"
+                           Type="enum{Comma;Semicolon;Whitespace}"
+                           DefaultValue="Comma"
+                           PrettyName="Separator"
+                           Description="Defines the element separator in the collection."
+                           VisibleIf="self::*[@columnType = 'Vector' or @columnType = 'Set']"
+                           ApplyIf="//input[@columnType = 'Vector' or @columnType = 'Set']"/>
+                           
+                <Attribute Name="sizeVetorOrSet"
+                           Type="int"
+                           DefaultValue="10000"
+                           PrettyName="Max Elements"
+                           Description="Defines the number of elements in the collection. Longer values will be truncated, while shorter values will be right padded."
+                           VisibleIf="self::*[@columnType = 'Vector' or @columnType = 'Set']"
+                           ApplyIf="//input[@columnType = 'Vector' or @columnType = 'Set']"/>
+                           
+                <Attribute Name="paddingSymbolVectorOrSetCategories"
+                           Type="string"
+                           DefaultValue="&lt;UNK&gt;"
+                           PrettyName="Right Padding Symbol"
+                           Description="Defines a constant value to be padded with when collection has less elements than the size specified."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and (@columnType = 'Vector'or @columnType = 'Set') and @elementType = 'Characters']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and (@columnType = 'Vector'or @columnType = 'Set') and @elementType = 'Characters']"/>
+                
+                <Attribute Name="paddingSymbolVectorOrSetNumerics"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Right Padding Symbol"
+                           Description="Defines a constant value to be padded with when collection has less elements than the size specified."
+                           VisibleIf="self::*[@missingValueStrategy = 'Fill with constant' and (@columnType = 'Vector'or @columnType = 'Set') and @elementType = 'Numerics']"
+                           ApplyIf="//input[@missingValueStrategy = 'Fill with constant' and (@columnType = 'Vector'or @columnType = 'Set') and @elementType = 'Numerics']"/>
+                 
+                <!-- Post-General properties -->
+                <Attribute Name="lowercaseCharacters"
+                           Type="bool"
+                           DefaultValue="True"
+                           PrettyName="Lowercase"
+                           Description="Indicates if the value has to be lowercased before training."
+                           VisibleIf="self::*[@columnType = 'Text' or ((@columnType = 'Category' or @columnType = 'Vector' or @columnType = 'Set') and @elementType = 'Characters')]"
+                           ApplyIf="//input[@columnType = 'Text' or ((@columnType = 'Category' or @columnType = 'Vector' or @columnType = 'Set') and @elementType = 'Characters')]"/>
+                           
+                <Attribute Name="bucketizeNumerics"
+                           Type="enum{Round;Round To Even;Truncate}"
+                           DefaultValue="Round"
+                           Description="Indicate if decimal values must be transformed into integers."
+                           PrettyName="Bucketize"
+                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Numerics']"
+                           ApplyIf="//input[@columnType = 'Category' and @elementType = 'Numerics']"/>
+                           
+                <Attribute Name="normalizationNumeric"
+                           Type="enum{Default;Scale to Z;Scale to [0,1];Scale to [MIN,MAX]}"
+                           DefaultValue="Default"
+                           Description="Defines the normalization strategy to be applied when vthe alue is treated as numerical."
+                           PrettyName="Normalization Strategy"
+                           VisibleIf="self::*[@columnType = 'Numeric']"
+                           ApplyIf="//input[@columnType = 'Numeric']"/>
+                
+                
             </Attributes>
         </ElementType>
 
-        <ElementType Name="Output" Caption="Output: {0} ({1})" CaptionParameters="attribute;columnType" Icon="Output" IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+        <ElementType Name="Output"
+                     Caption="{0} ({1})"
+                     CaptionParameters="attribute;columnType"
+                     Icon="Output"
+                     IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <Attributes>
-                <Attribute Name="attribute" Type="reference(Attribute)" Description="Attribute Name" />
-                <Attribute Name="columnType" Type="enum{Numeric;Label;Region}" Description="Column Type" DefaultValue="Numeric" />
+                <Attribute Name="attribute"
+                           Type="reference(Attribute)"
+                           Description="Attribute Name" />
+                           
+                <Attribute Name="columnType"
+                           Type="enum{Numeric;Category;Region}"
+                           DefaultValue="Numeric"
+                           Description="Attribute data output type"
+                           PrettyName="Data Output Type" />
+                
+                <!-- Pre-General properties -->
+                <Attribute Name="inspectOutput"
+                           Type="bool"
+                           DefaultValue="false"
+                           Description="Generate debug information during training."
+                           Category="Training"/>
+                
+                <Attribute Name="elementType"
+                           Type="enum{Numerics;Characters}"
+                           DefaultValue="Numerics"
+                           Description="Attribute value type."
+                           VisibleIf="self::*[@columnType = 'Category']"
+                           ApplyIf="//input[@columnType = 'Category']"/>
+                           
+                <!-- Numeric properties -->
+                <Attribute Name="lossNumeric"
+                           Type="enum{Mean Square Error;Mean Absolute Error}"
+                           DefaultValue="Mean Square Error"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"/>
+                
+                <!-- Category properties -->
+                <Attribute Name="lossCategory"
+                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
+                           DefaultValue="Softmax Cross Entroy"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"/>
+                
+                <Attribute Name="mostCommonCategory"
+                           Type="int"
+                           DefaultValue="10000"
+                           Description="Defines the maximum number of most common words to be considered (in terms of frequency). If data contains more than this amount, the most infrequent words are treated as unknown."
+                           PrettyName="Most Common"
+                           VisibleIf="self::*[@columnType = 'Category']"
+                           ApplyIf="//input[@columnType = 'Category']"/>
+                 
+                <!-- Post-General properties -->
+                <Attribute Name="lowercaseCharacters"
+                           Type="bool"
+                           DefaultValue="True"
+                           PrettyName="Lowercase"
+                           Description="Indicates if the value has to be lowercased before training."
+                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Characters']"
+                           ApplyIf="//input[@columnType = 'Category' and @elementType = 'Characters']"/>
+                           
+                <Attribute Name="bucketizeNumerics"
+                           Type="bool"
+                           DefaultValue="false"
+                           Description="Indicate if decimal values must be transformed into integers."
+                           PrettyName="Bucketize"
+                           VisibleIf="self::*[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]"
+                           ApplyIf="//input[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]"/>
+                           
+                <Attribute Name="normalizationNumeric"
+                           Type="enum{Default;Scale to Z;Scale to [0,1];Scale to [MIN,MAX]}"
+                           DefaultValue="Default"
+                           Description="Defines the normalization strategy to be applied when the attribute is treated as numerical."
+                           PrettyName="Normalization Strategy"
+                           VisibleIf="self::*[@columnType = 'Numeric' or @bucketizeNumerics = false]"
+                           ApplyIf="//input[@columnType = 'Numeric' or @bucketizeNumerics = false]"/>
+                
             </Attributes>
         </ElementType>
     </ElementTypes>
