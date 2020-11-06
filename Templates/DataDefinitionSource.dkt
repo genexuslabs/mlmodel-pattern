@@ -10,16 +10,15 @@
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
 	string outColumnType = instance.Output != null ? instance.Output.ColumnType : "Numeric";
-	string parentName = instance.ParentObject.Name;
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
     <Source><![CDATA[Definition
 {
-	Name = '<%= parentName %> ML Model'
+	Name = '<%= instance.Name %> ML Model'
 	Dataset
 	{
-		Loader = link(<%= parentName %>MLModelDataProvider)
+		Loader = link(<%= instance.Name %>MLModelDataProvider)
 	}
 	Input
 	{

@@ -8,16 +8,9 @@
     <ElementTypes>
     
         <ElementType Name="Model"
-                     Caption="Machine Learning Model Instance ({0})"
-                     CaptionParameters="transaction"
+                     Caption="Machine Learning Model Instance"
                      Icon=""
                      Multiple="false">
-            <Attributes>
-                <Attribute Name="transaction"
-                           Type="reference(Transaction)"
-                           Description="Transaction Name."
-                           NotNull="true" />
-            </Attributes>
             <ChildrenElements>
                 <ChildElement Name="inputs"
                               ElementType="Inputs"

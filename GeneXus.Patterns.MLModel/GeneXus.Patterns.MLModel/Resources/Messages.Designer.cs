@@ -59,14 +59,5 @@ namespace GeneXus.Patterns.MLModel.Resources {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MLModel instance&apos;s parent object must be a transaction..
-        /// </summary>
-        internal static string ParentMustBeTransaction {
-            get {
-                return ResourceManager.GetString("ParentMustBeTransaction", resourceCulture);
-            }
-        }
     }
 }
