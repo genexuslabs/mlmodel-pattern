@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Pattern xmlns="http://schemas.genexus.com/Patterns/InstanceSpecification/v1.0"
          Name="MLModel"
-         Version="0.3"
+         Version="0.4"
          RootElement="model"
          RootType="Model">
 

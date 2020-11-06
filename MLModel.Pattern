@@ -4,7 +4,7 @@
 				 Id="0A957A50-C1E5-42FF-84FB-B55980FD2638"
 				 Name="MLModel" 
 				 Description="Machine Learning Model" 
-				 Version="1.0" 
+				 Version="0.4" 
 				 Icon="Icons\MLModelPattern.ico"
 	>
 	<Definition>
