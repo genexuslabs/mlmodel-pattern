@@ -20,10 +20,11 @@
     <DeployFile Include="MLModelSettings.xml" />
 
     <DeployFile Include="$(PatternBuiltPath)\$(PatternName).dll" />
+    <DeployFile Include="$(PatternBuiltPath)\$(PatternName).pdb" />
   </ItemGroup>
 
   <Target Name="GenerateSources">
-    <Exec Command="GenerateStrongTypedClasses.bat $(GX_SDK_DIR) $(GX_PROGRAM_DIR)" />
+    <Exec Command="GenerateStrongTypedClasses.bat &quot;$(GX_SDK_DIR)&quot; $(GX_PROGRAM_DIR)" />
   </Target>
 
   <Target Name="BuildSolution">
