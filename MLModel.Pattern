@@ -4,24 +4,21 @@
 				 Id="0A957A50-C1E5-42FF-84FB-B55980FD2638"
 				 Name="MLModel" 
 				 Description="Machine Learning Model" 
-				 Version="1.0" 
+				 Version="0.4" 
 				 Icon="Icons\MLModelPattern.ico"
 	>
 	<Definition>
 		<InstanceName>{0}_MLModel</InstanceName>
 		<InstanceSpecification>MLModelInstance.xml</InstanceSpecification>
 		<Implementation>GeneXus.Patterns.MLModel.dll</Implementation>
-		<ParentObjects>
-			<ParentObject Type="Transaction" />
-		</ParentObjects>
 	</Definition>
 	<Objects>
-		<Object Type="DataProvider" Id="DataProvider" Name="{Parent.Name}MLModelDataProvider">
+		<Object Type="DataProvider" Id="DataProvider" Name="{Instance.Name}MLModelDataProvider">
 			<Part Type="DataProviderSource" Template="Templates\DataProviderSource.dkt" />
 			<Part Type="Variables" Template="Templates\DataProviderVariables.dkt" />
 			<Part Type="Rules" Template="Templates\DataProviderRules.dkt" />
 		</Object>
-		<Object Type="DataProvider" Id="DataDefinition" Name="{Parent.Name}MLModelDataDefinition">
+		<Object Type="DataProvider" Id="DataDefinition" Name="{Instance.Name}MLModelDataDefinition">
 			<Part Type="DataProviderSource" Template="Templates\DataDefinitionSource.dkt" />
 		</Object>
 	</Objects>
