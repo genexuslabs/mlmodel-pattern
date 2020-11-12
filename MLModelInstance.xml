@@ -420,6 +420,7 @@
                            ApplyIf="//input[@columnType = 'Region']"
                 />
 
+<!--
                 <Attribute Name="fitToRectangleRegion"
                            Type="bool"
                            DefaultValue="True"
@@ -428,7 +429,7 @@
                            VisibleIf="self::*[@columnType = 'Region']"
                            ApplyIf="//input[@columnType = 'Region']"
                 />
-
+-->
                 <!-- Vector/Set data -->
                 <Attribute Name="separatorVetorOrSet"
                            Type="enum{Comma;Semicolon;Whitespace}"
@@ -617,8 +618,26 @@
                            VisibleIf="self::*[@columnType = 'Category']"
                            />
                 
-                <!-- Region properties -->
-                <!--
+                <!-- Region properties (same as inputs) -->
+                <Attribute Name="formatRegion"
+                           Type="enum{(Top,Left,Width,Height);(Top,Left,Bottom,Right)}"
+                           DefaultValue="(Top,Left,Width,Height)"
+                           PrettyName="Format"
+                           Description="Desired format."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//output[@columnType = 'Region']"
+                />
+
+                <Attribute Name="separatorRegion"
+                           Type="enum{Comma;Whitespace}"
+                           DefaultValue="Comma"
+                           PrettyName="Separator"
+                           Description="Separator to use between values."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//output[@columnType = 'Region']"
+                />
+
+                <!-- Region properties (output specific) -->
                 <Attribute Name="lossRegion"
                            Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
                            DefaultValue="Softmax Cross Entroy"
@@ -628,29 +647,8 @@
                            ApplyIf="//output[@columnType = 'Region']" 
                            VisibleIf="self::*[@columnType = 'Region']"
                            />
-                -->
-                <!-- Text properties -->
-                <!--
-                <Attribute Name="lossText"
-                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
-                           DefaultValue="Softmax Cross Entroy"
-                           PrettyName="Loss"
-                           Description="Defines the loss metric to be used by the optimizer during training."
-                           Category="Training"
-                           ApplyIf="//output[@columnType = 'Text']" 
-                           VisibleIf="self::*[@columnType = 'Text']"
-                           />
 
-                <Attribute Name="levelText"
-                           Type="enum{Word;Character}"
-                           DefaultValue="Word"
-                           PrettyName="Level"
-                           Description="Defines the text level."
-                           Category="Training"
-                           ApplyIf="//output[@columnType = 'Text']" 
-                           VisibleIf="self::*[@columnType = 'Text']"
-                           />
-
+                <!-- Text properties (same as inputs) -->
                 <Attribute Name="removeDiacriticsText"
                            Type="bool"
                            DefaultValue="True"
@@ -738,9 +736,29 @@
                            Description="Defines the criteria used for spliting the value into a sequence of tokens."
                            VisibleIf="self::*[@columnType = 'Text']"
                            ApplyIf="//output[@columnType = 'Text']"/>
--->
+
+                <!-- Text properties (output specific) -->
+                <Attribute Name="lossText"
+                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
+                           DefaultValue="Softmax Cross Entroy"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Text']" 
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           />
+
+                <Attribute Name="levelText"
+                           Type="enum{Word;Character}"
+                           DefaultValue="Word"
+                           PrettyName="Level"
+                           Description="Defines the text level."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Text']" 
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           />
+
                 <!-- Post-General properties -->
-                <!--
                 <Attribute Name="lowercaseCharacters"
                            Type="bool"
                            DefaultValue="True"
@@ -748,15 +766,6 @@
                            Description="Indicates if the value has to be lowercased before training."
                            VisibleIf="self::*[(@columnType = 'Category' and @elementType = 'Characters') or @columnType = 'Text']"
                            ApplyIf="//output[(@columnType = 'Category' and @elementType = 'Characters') or @columnType = 'Text']"/>
-                                                      
-                <Attribute Name="normalizationNumeric"
-                           Type="enum{Default;Scale to Z;Scale to [0,1];Scale to [MIN,MAX]}"
-                           DefaultValue="Default"
-                           Description="Defines the normalization strategy to be applied when the attribute is treated as numerical."
-                           PrettyName="Normalization Strategy"
-                           VisibleIf="self::*[@columnType = 'Numeric' or @bucketizeNumerics = false]"
-                           ApplyIf="//output[@columnType = 'Numeric' or @bucketizeNumerics = false]"/>
-                -->
             </Attributes>
         </ElementType>
     </ElementTypes>
