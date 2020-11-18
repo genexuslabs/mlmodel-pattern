@@ -420,6 +420,7 @@
                            ApplyIf="//input[@columnType = 'Region']"
                 />
 
+<!--
                 <Attribute Name="fitToRectangleRegion"
                            Type="bool"
                            DefaultValue="True"
@@ -428,7 +429,7 @@
                            VisibleIf="self::*[@columnType = 'Region']"
                            ApplyIf="//input[@columnType = 'Region']"
                 />
-
+-->
                 <!-- Vector/Set data -->
                 <Attribute Name="separatorVetorOrSet"
                            Type="enum{Comma;Semicolon;Whitespace}"
@@ -502,74 +503,269 @@
                            Description="Attribute Name" />
                            
                 <Attribute Name="columnType"
-                           Type="enum{Numeric;Category;Region}"
+                           Type="enum{Numeric;Category;Region;Text}"
                            DefaultValue="Numeric"
                            Description="Attribute data output type"
                            PrettyName="Data Output Type" />
                 
-                <!-- Pre-General properties -->
+                <!-- General properties -->
                 <Attribute Name="inspectOutput"
                            Type="bool"
                            DefaultValue="false"
                            Description="Generate debug information during training."
                            Category="Training"/>
                 
-                <Attribute Name="elementType"
-                           Type="enum{Numerics;Characters}"
-                           DefaultValue="Numerics"
-                           Description="Attribute value type."
-                           VisibleIf="self::*[@columnType = 'Category']"
-                           ApplyIf="//input[@columnType = 'Category']"/>
-                           
-                <!-- Numeric properties -->
+                <!-- Numeric properties (same as inputs) -->
+                <Attribute Name="missingValueStrategyNumeric"
+                           Type="enum{Fill with constant;Fill with mean;Fill with mode;Fill with max;Fill with min;Fill with last;Fill with random;Ignore}"
+                           DefaultValue="Fill with constant"
+                           PrettyName="Missing Value Strategy"
+                           Description="Strategy to be applied when the value is missing."
+                           ApplyIf="//output[@columnType = 'Numeric']" 
+                           VisibleIf="self::*[@columnType = 'Numeric']"/> 
+
+                <Attribute Name="fillValueNumeric"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Numeric']"
+                           ApplyIf="//output[@missingValueStrategyNumeric = 'Fill with constant' and @columnType = 'Numeric']"/>
+
+                <Attribute Name="normalizationNumeric"
+                           Type="enum{Default;Scale to Z;Scale to [0,1];Scale to [MIN,MAX]}"
+                           DefaultValue="Default"
+                           Description="Defines the normalization strategy to be applied when vthe alue is treated as numerical."
+                           PrettyName="Normalization Strategy"
+                           VisibleIf="self::*[@columnType = 'Numeric']"
+                           ApplyIf="//output[@columnType = 'Numeric']"/>
+
+                <!-- Numeric properties (output specific) -->
                 <Attribute Name="lossNumeric"
                            Type="enum{Mean Square Error;Mean Absolute Error}"
                            DefaultValue="Mean Square Error"
                            PrettyName="Loss"
                            Description="Defines the loss metric to be used by the optimizer during training."
-                           Category="Training"/>
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Numeric']" 
+                           VisibleIf="self::*[@columnType = 'Numeric']"
+                           />
+
+                <!-- Category properties (same as inputs) -->
+                <Attribute Name="elementType"
+                           Type="enum{Numerics;Characters}"
+                           DefaultValue="Numerics"
+                           Description="Attribute value type."
+                           VisibleIf="self::*[@columnType = 'Category']"
+                           ApplyIf="//output[@columnType = 'Category']"/>
+                           
+                <Attribute Name="missingValueStrategyCategoryNumerics"
+                           Type="enum{Fill with constant;Fill with mean;Fill with mode;Fill with max;Fill with min;Fill with last;Fill with random;Ignore}"
+                           DefaultValue="Fill with constant"
+                           PrettyName="Missing Value Strategy"
+                           Description="Strategy to be applied when the value is missing."
+                           ApplyIf="//output[@columnType = 'Category' and @elementType = 'Numerics']" 
+                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Numerics']"/> 
+
+                <Attribute Name="fillValueCategoryNumerics"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategyCategoryNumerics = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Numerics']"
+                           ApplyIf="//output[@missingValueStrategyCategoryNumerics = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Numerics']"/>
                 
-                <!-- Category properties -->
-                <Attribute Name="lossCategory"
-                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
-                           DefaultValue="Softmax Cross Entroy"
-                           PrettyName="Loss"
-                           Description="Defines the loss metric to be used by the optimizer during training."
-                           Category="Training"/>
-                
+                <Attribute Name="missingValueStrategyCategoryCharacters"
+                           Type="enum{Fill with constant;Fill with mean;Fill with mode;Fill with last;Fill with random;Ignore}"
+                           DefaultValue="Fill with constant"
+                           PrettyName="Missing Value Strategy"
+                           Description="Strategy to be applied when the value is missing."
+                           ApplyIf="//output[@columnType = 'Category' and @elementType = 'Characters']" 
+                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Characters']"/> 
+
+                <Attribute Name="fillValueCategoryCharacters"
+                           Type="string"
+                           DefaultValue="&lt;UNK&gt;"
+                           PrettyName="Fill Value"
+                           Description="Defines a constant value to be filled with when the value is missing."
+                           VisibleIf="self::*[@missingValueStrategyCategoryCharacters = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Characters']"
+                           ApplyIf="//output[@missingValueStrategyCategoryCharacters = 'Fill with constant' and @columnType = 'Category' and @elementType = 'Characters']"/>
+
                 <Attribute Name="mostCommonCategory"
                            Type="int"
                            DefaultValue="10000"
                            Description="Defines the maximum number of most common words to be considered (in terms of frequency). If data contains more than this amount, the most infrequent words are treated as unknown."
                            PrettyName="Most Common"
                            VisibleIf="self::*[@columnType = 'Category']"
-                           ApplyIf="//input[@columnType = 'Category']"/>
-                 
+                           ApplyIf="//output[@columnType = 'Category']"/>
+
+                <Attribute Name="bucketizeCategoryNumerics"
+                           Type="bool"
+                           DefaultValue="false"
+                           Description="Indicate if decimal values must be transformed into integers."
+                           PrettyName="Bucketize"
+                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Numerics']"
+                           ApplyIf="//output[@columnType = 'Category' and @elementType = 'Numerics']"/>
+
+                <!-- Category properties (output specific) -->
+                <Attribute Name="lossCategory"
+                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
+                           DefaultValue="Softmax Cross Entroy"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Category']" 
+                           VisibleIf="self::*[@columnType = 'Category']"
+                           />
+                
+                <!-- Region properties (same as inputs) -->
+                <Attribute Name="formatRegion"
+                           Type="enum{(Top,Left,Width,Height);(Top,Left,Bottom,Right)}"
+                           DefaultValue="(Top,Left,Width,Height)"
+                           PrettyName="Format"
+                           Description="Desired format."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//output[@columnType = 'Region']"
+                />
+
+                <Attribute Name="separatorRegion"
+                           Type="enum{Comma;Whitespace}"
+                           DefaultValue="Comma"
+                           PrettyName="Separator"
+                           Description="Separator to use between values."
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           ApplyIf="//output[@columnType = 'Region']"
+                />
+
+                <!-- Region properties (output specific) -->
+                <Attribute Name="lossRegion"
+                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
+                           DefaultValue="Softmax Cross Entroy"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Region']" 
+                           VisibleIf="self::*[@columnType = 'Region']"
+                           />
+
+                <!-- Text properties (same as inputs) -->
+                <Attribute Name="removeDiacriticsText"
+                           Type="bool"
+                           DefaultValue="True"
+                           PrettyName="Remove Diacritics"
+                           Description="Indicates if the value has to remove diacritics (e.g. accented characters)."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="stopwordsFileText"
+                           Type="reference(File)"
+                           DefaultValue="False"
+                           PrettyName="Stopwords File"
+                           Description="References a File object containing a list of stopwords to be filtered."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="maxCharactersText"
+                           Type="string"
+                           DefaultValue="1024"
+                           PrettyName="Max Characters"
+                           Description="Defines the maximum lenght in terms of characters. Longer values will be truncated, while shorter values will be padded."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="characterPaddingDirectionText"
+                           Type="enum{Left;Right}"
+                           DefaultValue="Left"
+                           PrettyName="Character Padding Direction"
+                           Description="Indicates the direction of the padding in terms of characters."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="characterPaddingSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;CHR&gt;"
+                           PrettyName="Character Padding Symbol"
+                           Description="Defines the character token used as padding symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="maxWordsText"
+                           Type="string"
+                           DefaultValue="256"
+                           PrettyName="Max Words"
+                           Description="Defines the maximum lenght in terms of words. Longer values will be truncated, while shorter values will be padded."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="wordPaddingDirectionText"
+                           Type="enum{Left;Right}"
+                           DefaultValue="Left"
+                           PrettyName="Word Padding"
+                           Description="Indicates the direction of the padding in terms of words."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="wordPaddingSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;WRD&gt;"
+                           PrettyName="Word Padding Symbol"
+                           Description="Defines the word token used as a padding symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="mostCommonText"
+                           Type="int"
+                           DefaultValue="20000"
+                           Description="Defines the maximum number of most common words to be considered (in terms of frequency). If data contains more than this amount, the most infrequent words are treated as unknown."
+                           PrettyName="Most Common"
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="unknownSymbolText"
+                           Type="string"
+                           DefaultValue="&lt;UNK&gt;"
+                           PrettyName="Unknown Symbol"
+                           Description="Defines the token used as an unknown symbol."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+                
+                <Attribute Name="tokenizerText"
+                           Type="enum{Space and Punctuation;Space;Punctuation;Underscore;Comma}"
+                           DefaultValue="Space"
+                           PrettyName="Tokenizer"
+                           Description="Defines the criteria used for spliting the value into a sequence of tokens."
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           ApplyIf="//output[@columnType = 'Text']"/>
+
+                <!-- Text properties (output specific) -->
+                <Attribute Name="lossText"
+                           Type="enum{Softmax Cross Entroy;Sampled Softmax Cross Entropy}"
+                           DefaultValue="Softmax Cross Entroy"
+                           PrettyName="Loss"
+                           Description="Defines the loss metric to be used by the optimizer during training."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Text']" 
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           />
+
+                <Attribute Name="levelText"
+                           Type="enum{Word;Character}"
+                           DefaultValue="Word"
+                           PrettyName="Level"
+                           Description="Defines the text level."
+                           Category="Training"
+                           ApplyIf="//output[@columnType = 'Text']" 
+                           VisibleIf="self::*[@columnType = 'Text']"
+                           />
+
                 <!-- Post-General properties -->
                 <Attribute Name="lowercaseCharacters"
                            Type="bool"
                            DefaultValue="True"
                            PrettyName="Lowercase"
                            Description="Indicates if the value has to be lowercased before training."
-                           VisibleIf="self::*[@columnType = 'Category' and @elementType = 'Characters']"
-                           ApplyIf="//input[@columnType = 'Category' and @elementType = 'Characters']"/>
-                           
-                <Attribute Name="bucketizeNumerics"
-                           Type="bool"
-                           DefaultValue="false"
-                           Description="Indicate if decimal values must be transformed into integers."
-                           PrettyName="Bucketize"
-                           VisibleIf="self::*[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]"
-                           ApplyIf="//input[@columnType = 'Numeric' or (@columnType = 'Category' and @elementType = 'Numerics')]"/>
-                           
-                <Attribute Name="normalizationNumeric"
-                           Type="enum{Default;Scale to Z;Scale to [0,1];Scale to [MIN,MAX]}"
-                           DefaultValue="Default"
-                           Description="Defines the normalization strategy to be applied when the attribute is treated as numerical."
-                           PrettyName="Normalization Strategy"
-                           VisibleIf="self::*[@columnType = 'Numeric' or @bucketizeNumerics = false]"
-                           ApplyIf="//input[@columnType = 'Numeric' or @bucketizeNumerics = false]"/>
-                
+                           VisibleIf="self::*[(@columnType = 'Category' and @elementType = 'Characters') or @columnType = 'Text']"
+                           ApplyIf="//output[(@columnType = 'Category' and @elementType = 'Characters') or @columnType = 'Text']"/>
             </Attributes>
         </ElementType>
     </ElementTypes>
