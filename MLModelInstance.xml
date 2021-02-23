@@ -782,8 +782,8 @@
         </ElementType>
 
         <ElementType Name="Layer"
-                     Caption="{0} Layer"
-                     CaptionParameters="layerType"
+                     Caption="{0} ({1})"
+                     CaptionParameters="name;layerType"
                      Icon="Layer"
                      IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <Attributes>
@@ -791,6 +791,12 @@
                            Type="enum{Convolutional;Fully Connected}"
                            DefaultValue="Fully Connected"
                            Description="Layer type">
+                </Attribute>
+                <Attribute Name="name"
+                           Type="string"
+                           DefaultValue=""
+                           PrettyName="Name"
+                           Description="The name for the layer">
                 </Attribute>
                 <Attribute Name="num_filters"
                            Type="int"
