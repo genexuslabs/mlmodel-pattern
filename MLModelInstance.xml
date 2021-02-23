@@ -762,8 +762,7 @@
         </ElementType>
 
         <ElementType Name="Layers"
-                     Caption="Encoder: {0}"
-                     CaptionParameters="encoder"
+                     Caption="Layers"
                      Icon="Model"
                      IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
             <ChildrenElements>
@@ -771,14 +770,6 @@
                               ElementType="Layer"
                               Multiple="true" />
             </ChildrenElements>
-            <Attributes>
-                <Attribute Name="encoder"
-                           Type="enum{Stacked CNN}"
-                           DefaultValue="Stacked CNN"
-                           Description="Encoder to use"
-                           PrettyName="Encoder">
-                </Attribute>
-            </Attributes>
         </ElementType>
 
         <ElementType Name="Layer"
