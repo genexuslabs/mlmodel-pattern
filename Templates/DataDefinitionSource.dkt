@@ -34,7 +34,31 @@
 	}
 	Output
 	{
-		Type = GeneXusAI.Custom.DataOutputType.<%= outColumnType %>
+		Type = <%= MLModelInstanceHelper.TemplateValueForOutputType(outColumnType) %>
+	}
+	Layers
+	{
+		Items
+		{
+	<% 	foreach (var layer in instance.Layers) { %>
+			Layer
+			{
+				Type = <%= MLModelInstanceHelper.TemplateValueForLayerType(layer.LayerType) %>
+				Name = "<%= layer.Name %>"
+				Properties
+				{
+					<% foreach(KeyValuePair<string, string> entry in MLModelInstanceHelper.GetLayerProperties(layer)) { %>
+					PropertiesItem
+					{
+						Name = "<%= entry.Key %>"
+						Value = "<%= entry.Value %>"
+					}
+					<% } %>
+				}
+			}
+
+	<% 	} %>
+		}
 	}
 }
 ]]></Source>
