@@ -818,11 +818,11 @@
                            ApplyIf="self::*[@layerType = 'Convolutional']">
                 </Attribute>
 
-                <Attribute Name="fc_size"
+                <Attribute Name="num_units"
                            Type="int"
                            DefaultValue="128"
-                           PrettyName="Fully Conneced Size"
-                           Description="Number of nodes of the Fully Connected Layer"
+                           PrettyName="Number of units"
+                           Description="Number of units in the Layer"
                            ApplyIf="self::*[@layerType = 'Fully Connected']">
                 </Attribute>
                 
