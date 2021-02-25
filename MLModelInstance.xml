@@ -15,6 +15,9 @@
                 <ChildElement Name="inputs"
                               ElementType="Inputs"
                               Multiple="false" />
+                <ChildElement Name="layers"
+                              ElementType="Layers"
+                              Multiple="false" />
                 <ChildElement Name="output"
                               ElementType="Output"
                               Multiple="false" />
@@ -420,17 +423,6 @@
                            ApplyIf="//input[@columnType = 'Region']"
                 />
 
-<!--
-                <Attribute Name="fitToRectangleRegion"
-                           Type="bool"
-                           DefaultValue="True"
-                           PrettyName="Fit to Rectangle"
-                           Description="Indicates if the region should be fit to a rectangle."
-                           VisibleIf="self::*[@columnType = 'Region']"
-                           ApplyIf="//input[@columnType = 'Region']"
-                />
--->
-                <!-- Vector/Set data -->
                 <Attribute Name="separatorVetorOrSet"
                            Type="enum{Comma;Semicolon;Whitespace}"
                            DefaultValue="Comma"
@@ -768,5 +760,81 @@
                            ApplyIf="//output[(@columnType = 'Category' and @elementType = 'Characters') or @columnType = 'Text']"/>
             </Attributes>
         </ElementType>
+
+        <ElementType Name="Layers"
+                     Caption="Layers"
+                     Icon="Model"
+                     IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+            <ChildrenElements>
+                <ChildElement Name="Layer"
+                              ElementType="Layer"
+                              Multiple="true" />
+            </ChildrenElements>
+        </ElementType>
+
+        <ElementType Name="Layer"
+                     Caption="{0} ({1})"
+                     CaptionParameters="name;layerType"
+                     Icon="Layer"
+                     IconResource="GeneXus.Patterns.MLModel.Resources.Images,GeneXus.Patterns.MLModel">
+            <Attributes>
+                <Attribute Name="layerType"
+                           Type="enum{Convolutional;Fully Connected}"
+                           DefaultValue="Fully Connected"
+                           Description="Layer type">
+                </Attribute>
+                <Attribute Name="name"
+                           Type="string"
+                           DefaultValue=""
+                           PrettyName="Name"
+                           Description="The name for the layer">
+                </Attribute>
+                <Attribute Name="num_filters"
+                           Type="int"
+                           DefaultValue="32"
+                           PrettyName="Number of filters"
+                           Description="Number of filters for the Convolutional Layer"
+                           ApplyIf="self::*[@layerType = 'Convolutional']">
+                </Attribute>
+                <Attribute Name="filter_size"
+                           Type="int"
+                           DefaultValue="3"
+                           PrettyName="Filter size"
+                           Description="Filter size for the Convolutional Layer"
+                           ApplyIf="self::*[@layerType = 'Convolutional']">
+                </Attribute>
+                <Attribute Name="pool_size"
+                           Type="int"
+                           DefaultValue="2"
+                           PrettyName="Pool size"
+                           Description="Pool size for the Convolutional Layer"
+                           ApplyIf="self::*[@layerType = 'Convolutional']">
+                </Attribute>
+                <Attribute Name="pool_stride"
+                           Type="int"
+                           DefaultValue="2"
+                           PrettyName="Pool stride"
+                           Description="Pool stride for the Convolutional Layer"
+                           ApplyIf="self::*[@layerType = 'Convolutional']">
+                </Attribute>
+
+                <Attribute Name="num_units"
+                           Type="int"
+                           DefaultValue="128"
+                           PrettyName="Number of units"
+                           Description="Number of units in the Layer"
+                           ApplyIf="self::*[@layerType = 'Fully Connected']">
+                </Attribute>
+                
+                <Attribute Name="dropout"
+                           Type="decimal"
+                           DefaultValue="0.0"
+                           PrettyName="Dropout"
+                           Description="Dropout. Value must be between 0.0 and 1.0">
+                </Attribute>
+
+            </Attributes>
+        </ElementType>
+
     </ElementTypes>
 </Pattern>
