@@ -30,7 +30,7 @@
 			{
 				Features {
 		<% 	foreach (var input in instance.Inputs) { %>
-					Value = &<%= input.Attribute.Name %>.ToString().Trim()
+					Value = <%= MLModelInstanceHelper.TemplateValueForInputAttValue(input) %>
 		<% 	} %>
 				}
 			}
