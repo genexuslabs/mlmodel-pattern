@@ -15,9 +15,26 @@ namespace Genexus.Patterns.MLModel
         private static string kDataOutputTypeFullName = $"{kGeneXusAICustomModuleName}.DataOutputType";
         private static string kLayerTypeFullName = $"{kGeneXusAICustomModuleName}.LayerType";
 
-        #endregion
+		#endregion
 
-        #region Inputs
+		#region Inputs
+
+		private static bool IsMultimediaType(string columnType)
+		{
+			return columnType == "Image" || columnType == "Audio" || columnType == "Video";
+		}
+
+		public static string TemplateValueForInputAttValue(InputElement input)
+		{
+			if (IsMultimediaType(input.ColumnType))
+			{
+				return $"&{input.Attribute.Name}.{input.ColumnType}URI";
+			}
+			else
+			{
+				return $"&{input.Attribute.Name}.ToString().Trim()";
+			}
+		}
 
         #endregion
 
