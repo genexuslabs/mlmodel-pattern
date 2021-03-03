@@ -36,7 +36,7 @@
 			}
 			Output
 			{
-				<%= outColumnType %> = &<%= outValue %>
+				<%= MLModelInstanceHelper.TemplateValueForOutputType(outColumnType) %> = &<%= outValue %>
 			}
 		}
 	}
