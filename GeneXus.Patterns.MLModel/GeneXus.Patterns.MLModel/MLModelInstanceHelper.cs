@@ -41,11 +41,16 @@ namespace Genexus.Patterns.MLModel
         #region Outputs
 
         public static string TemplateValueForOutputType(string outputType) {
+            string templateValue = TemplateKeyForOutputType(outputType);
+            return $"{kDataOutputTypeFullName}.{templateValue}";
+        }
+
+        public static string TemplateKeyForOutputType(string outputType) {
             string templateValue = outputType;
             if (templateValue == "Category") {
                 templateValue = "Label";
             }
-            return $"{kDataOutputTypeFullName}.{templateValue}";
+            return templateValue;
         }
 
         #endregion
