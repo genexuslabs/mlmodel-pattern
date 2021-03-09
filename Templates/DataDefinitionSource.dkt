@@ -28,6 +28,18 @@
 			Feature {
 				Name = '<%= input.Attribute.Name %>'
 				Type = GeneXusAI.Custom.DataInputType.<%= input.ColumnType %>
+
+				Properties
+				{
+					<% 	foreach (KeyValuePair<string, string> prop in MLModelInstanceHelper.EnumerateInputProperties(input)) { %>
+					Item
+					{
+						Name = "<%= prop.Key %>"
+						Value = "<%= prop.Value %>"
+					}
+					<% } %>
+				}
+
 			}
 	<% 	} %>
 		}
@@ -35,20 +47,32 @@
 	Output
 	{
 		Type = <%= MLModelInstanceHelper.TemplateValueForOutputType(outColumnType) %>
+
+		Properties
+		{
+			<% 	foreach (KeyValuePair<string, string> prop in MLModelInstanceHelper.EnumerateOutputProperties(instance.Output)) { %>
+			Item
+			{
+				Name = "<%= prop.Key %>"
+				Value = "<%= prop.Value %>"
+			}
+			<% } %>
+		}
 	}
-	Layers
+
+	Network
 	{
-		Items
+		Layers
 		{
 	<% 	foreach (var layer in instance.Layers) { %>
 			Layer
 			{
-				Type = <%= MLModelInstanceHelper.TemplateValueForLayerType(layer.LayerType) %>
 				Name = "<%= layer.Name %>"
+				Type = <%= MLModelInstanceHelper.TemplateValueForLayerType(layer.LayerType) %>
 				Properties
 				{
 					<% foreach(KeyValuePair<string, string> entry in MLModelInstanceHelper.GetLayerProperties(layer)) { %>
-					PropertiesItem
+					Item
 					{
 						Name = "<%= entry.Key %>"
 						Value = "<%= entry.Value %>"
@@ -56,7 +80,6 @@
 					<% } %>
 				}
 			}
-
 	<% 	} %>
 		}
 	}
