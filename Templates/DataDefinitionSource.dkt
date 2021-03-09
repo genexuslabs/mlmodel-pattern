@@ -28,7 +28,6 @@
 			Feature {
 				Name = '<%= input.Attribute.Name %>'
 				Type = GeneXusAI.Custom.DataInputType.<%= input.ColumnType %>
-
 				Properties
 				{
 					<% 	foreach (KeyValuePair<string, string> prop in MLModelInstanceHelper.EnumerateInputProperties(input)) { %>
