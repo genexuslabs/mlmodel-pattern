@@ -169,7 +169,7 @@
                            ApplyIf="//input[@columnType = 'Text']"/>
                 
                 <Attribute Name="maxWordsText"
-                           Type="string"
+                           Type="int"
                            DefaultValue="256"
                            PrettyName="Max Words"
                            Description="Defines the maximum lenght in terms of words. Longer values will be truncated, while shorter values will be padded."
@@ -423,7 +423,7 @@
                            ApplyIf="//input[@columnType = 'Region']"
                 />
 
-                <Attribute Name="separatorVetorOrSet"
+                <Attribute Name="separatorVectorOrSet"
                            Type="enum{Comma;Semicolon;Whitespace}"
                            DefaultValue="Comma"
                            PrettyName="Separator"
@@ -431,7 +431,7 @@
                            VisibleIf="self::*[@columnType = 'Vector' or @columnType = 'Set']"
                            ApplyIf="//input[@columnType = 'Vector' or @columnType = 'Set']"/>
                            
-                <Attribute Name="sizeVetorOrSet"
+                <Attribute Name="sizeVectorOrSet"
                            Type="int"
                            DefaultValue="10000"
                            PrettyName="Max Elements"
@@ -658,7 +658,7 @@
                            ApplyIf="//output[@columnType = 'Text']"/>
                 
                 <Attribute Name="maxCharactersText"
-                           Type="string"
+                           Type="int"
                            DefaultValue="1024"
                            PrettyName="Max Characters"
                            Description="Defines the maximum lenght in terms of characters. Longer values will be truncated, while shorter values will be padded."
