@@ -44,22 +44,6 @@
 	<% 	} %>
 		}
 	}
-	Output
-	{
-		Type = <%= MLModelInstanceHelper.TemplateValueForOutputType(outColumnType) %>
-
-		Properties
-		{
-			<% 	foreach (KeyValuePair<string, string> prop in MLModelInstanceHelper.EnumerateOutputProperties(instance.Output)) { %>
-			Item
-			{
-				Name = "<%= prop.Key %>"
-				Value = "<%= prop.Value %>"
-			}
-			<% } %>
-		}
-	}
-
 	Network
 	{
 		Layers
@@ -81,6 +65,21 @@
 				}
 			}
 	<% 	} %>
+		}
+	}
+	Output
+	{
+		Type = <%= MLModelInstanceHelper.TemplateValueForOutputType(outColumnType) %>
+
+		Properties
+		{
+			<% 	foreach (KeyValuePair<string, string> prop in MLModelInstanceHelper.EnumerateOutputProperties(instance.Output)) { %>
+			Item
+			{
+				Name = "<%= prop.Key %>"
+				Value = "<%= prop.Value %>"
+			}
+			<% } %>
 		}
 	}
 }
