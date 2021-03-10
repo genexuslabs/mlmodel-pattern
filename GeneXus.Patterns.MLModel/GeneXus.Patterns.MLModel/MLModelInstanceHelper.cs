@@ -228,6 +228,18 @@ namespace Genexus.Patterns.MLModel
             }
             return templateValue;
         }
+        
+		public static string TemplateValueForOutputAttValue(OutputElement output)
+		{
+			if (output.ColumnType == "Numeric")
+			{
+				return $"&{output.Attribute.Name}";
+			}
+			else
+			{
+				return $"&{output.Attribute.Name}.ToString().Trim()";
+			}
+		}
 
 		public static IEnumerable<KeyValuePair<string, string>> EnumerateOutputProperties(OutputElement output)
 		{
