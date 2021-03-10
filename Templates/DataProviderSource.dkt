@@ -10,8 +10,8 @@
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
     var output = instance.Output;
-    string outColumnType = output != null ? MLModelInstanceHelper.TemplateKeyForOutputType(output.ColumnType) : "Numeric";
-	string outValue = output != null ? MLModelInstanceHelper.TemplateValueForOutputAttValue(output) : "'0'";
+    string outColumnType = MLModelInstanceHelper.TemplateKeyForOutputType(output);
+	string outValue = MLModelInstanceHelper.TemplateValueForOutputAttValue(output);
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
