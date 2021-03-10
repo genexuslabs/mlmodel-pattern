@@ -221,13 +221,38 @@ namespace Genexus.Patterns.MLModel
             return $"{kDataOutputTypeFullName}.{templateValue}";
         }
 
-        public static string TemplateKeyForOutputType(string outputType) {
+        public static string TemplateKeyForOutputType(string outputType) 
+		{
             string templateValue = outputType;
-            if (templateValue == "Category") {
+            if (templateValue == "Category") 
+			{
                 templateValue = "Label";
             }
             return templateValue;
         }
+        
+		public static string TemplateKeyForOutputType(OutputElement output)
+		{
+			if (string.IsNullOrEmpty(output?.ColumnType))
+				return "Numeric";
+			return TemplateKeyForOutputType(output?.ColumnType);
+		}
+
+		public static string TemplateValueForOutputAttValue(OutputElement output)
+		{
+			if (output == null)
+			{
+				return "'0'";
+			}
+			if (output.ColumnType == "Numeric")
+			{
+				return $"&{output.Attribute.Name}";
+			}
+			else
+			{
+				return $"&{output.Attribute.Name}.ToString().Trim()";
+			}
+		}
 
 		public static IEnumerable<KeyValuePair<string, string>> EnumerateOutputProperties(OutputElement output)
 		{

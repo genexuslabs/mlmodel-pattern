@@ -9,8 +9,9 @@
 
 <%
 	MLModelInstance instance = new MLModelInstance(Instance);
-	string outColumnType = instance.Output != null ? instance.Output.ColumnType : "Numeric";
-	string outValue = instance.Output != null ? instance.Output.Attribute.Name : "'0'";
+    var output = instance.Output;
+    string outColumnType = MLModelInstanceHelper.TemplateKeyForOutputType(output);
+	string outValue = MLModelInstanceHelper.TemplateValueForOutputAttValue(output);
 %>
 
 <Part type="1d8aeb5a-6e98-45a7-92d2-d8de7384e432">
@@ -22,7 +23,7 @@
 	<% 	foreach (var input in instance.Inputs) { %>
 		&<%= input.Attribute.Name %> = <%= input.Attribute.Name %>
 	<% 	} %>
-		&<%= outValue %> = <%= outValue %>
+		&<%= output.Attribute.Name %> = <%= output.Attribute.Name %>
 
 		Data 
 		{
@@ -36,7 +37,7 @@
 			}
 			Output
 			{
-				<%= MLModelInstanceHelper.TemplateKeyForOutputType(outColumnType) %> = &<%= outValue %>
+				<%= outColumnType %> = <%= outValue %>
 			}
 		}
 	}
